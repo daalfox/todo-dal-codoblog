@@ -1,17 +1,4 @@
-# Never doubt your data access layer implementation again
+# Update implementation
 
-This is the source code for my [blog post]() about implementing data access
-layers.
-
-## How to use this repo
-
-This repo is intended to walk you through every step in the process. You can
-start by checking out the first step:
-
-```
-git checkout step-1
-```
-
-Otherwise, this branch contains the final code.
-
-Enjoy!
+This branch includes the `Update` implementation that is asked in the blog as
+an exercise.

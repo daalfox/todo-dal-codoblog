@@ -15,22 +15,27 @@ import (
 )
 
 func TestPostgresRepo(t *testing.T) {
-	t.Run("test crud", func(t *testing.T) {
-		ctx := context.Background()
-		conn := getTestPostgresConn(t, ctx)
-		todoRepo := todos.NewPostgresRepo(ctx, conn)
+	ctx := context.Background()
+	conn := getTestPostgresConn(t, ctx)
+	todoRepo := todos.NewPostgresRepo(ctx, conn)
 
+	t.Run("test crud", func(t *testing.T) {
 		todo := todos.Todo{
 			Title: "Learn to use testcontainers",
 		}
 		todoId, err := todoRepo.Create(todo)
 		assert.NoError(t, err)
 		todo.Id = todoId
-
 		todoFromDb, err := todoRepo.Get(todoId)
 		assert.NoError(t, err)
-
 		assert.Equal(t, todo, todoFromDb)
+
+		todo.Title = "Updated title"
+		updatedTodo, err := todoRepo.Update(todoId, todo)
+		assert.NoError(t, err)
+		todoFromDb, err = todoRepo.Get(todoId)
+		assert.NoError(t, err)
+		assert.Equal(t, todoFromDb, updatedTodo)
 	})
 }
 

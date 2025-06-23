@@ -34,6 +34,15 @@ func (r *PostgresRepo) Get(id int) (Todo, error) {
 	}
 	return todo, nil
 }
+func (r *PostgresRepo) Update(id int, updatedTodo Todo) (Todo, error) {
+	stmt := "UPDATE todo SET title = $1, done = $2 WHERE id = $3 RETURNING *"
+	var todo Todo
+	err := r.dbConn.QueryRow(r.ctx, stmt, updatedTodo.Title, updatedTodo.Done, id).Scan(&todo.Id, &todo.Title, &todo.Done)
+	if err != nil {
+		return todo, err
+	}
+	return todo, nil
+}
 
 type Todo struct {
 	Id    int
