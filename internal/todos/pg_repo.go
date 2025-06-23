@@ -43,6 +43,14 @@ func (r *PostgresRepo) Update(id int, updatedTodo Todo) (Todo, error) {
 	}
 	return todo, nil
 }
+func (r *PostgresRepo) Delete(id int) error {
+	stmt := "DELETE FROM todo WHERE id = $1"
+	_, err := r.dbConn.Exec(r.ctx, stmt, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 type Todo struct {
 	Id    int

@@ -36,6 +36,11 @@ func TestPostgresRepo(t *testing.T) {
 		todoFromDb, err = todoRepo.Get(todoId)
 		assert.NoError(t, err)
 		assert.Equal(t, todoFromDb, updatedTodo)
+
+		err = todoRepo.Delete(todoId)
+		assert.NoError(t, err)
+		todoFromDb, err = todoRepo.Get(todoId)
+		assert.EqualError(t, err, "no rows in result set")
 	})
 }
 
